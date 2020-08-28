@@ -1,0 +1,10 @@
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Release\DBF Process.exe.config
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Release\DBF Process.exe
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Release\DBF Process.pdb
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Release\dBASE.NET.dll
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Release\dBASE.NET.xml
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF_Process.Paso1.resources
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF_Process.Properties.Resources.resources
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.csproj.GenerateResource.Cache
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.exe
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.pdb

@@ -1,0 +1,11 @@
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Debug\DBF Process.exe.config
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Debug\DBF Process.exe
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Debug\DBF Process.pdb
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Debug\DBF Process.csprojResolveAssemblyReference.cache
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Debug\DBF_Process.Paso1.resources
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Debug\DBF_Process.Properties.Resources.resources
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Debug\DBF Process.csproj.GenerateResource.Cache
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Debug\DBF Process.exe
+c:\users\vicentearturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Debug\DBF Process.pdb
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Debug\dBASE.NET.dll
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\bin\Debug\dBASE.NET.xml
