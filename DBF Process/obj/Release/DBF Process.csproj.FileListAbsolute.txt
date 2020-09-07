@@ -8,3 +8,4 @@ C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Pro
 C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.csproj.GenerateResource.Cache
 C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.exe
 C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.pdb
+C:\Users\VicenteArturo\documents\visual studio 2013\Projects\DBF Process\DBF Process\obj\Release\DBF Process.csprojResolveAssemblyReference.cache
