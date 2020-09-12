@@ -20,7 +20,6 @@ namespace DBF_Process
         {
             GregorianCalendar cal = new GregorianCalendar(GregorianCalendarTypes.Localized);
             return cal.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
-            ;
         }
         public class Field
         {
@@ -277,6 +276,220 @@ namespace DBF_Process
             MessageBox.Show("Proceso concluido exitosamente");
 
         }
+        private void procesaCombinacion()
+        {
+            List<int> meses = new List<int>();
+            string delimiter = ",";
+            string seleccion = checkBoxComboBox1.Text.Replace(" ", "").Trim();
+            string[] items = seleccion.Split(delimiter.ToCharArray());
+            for (int i = 0; i < items.Length; i++)
+            {
+                switch (items[i])
+                {
+                    case "Enero":
+                        meses.Add(1);
+                    break;
+                    case "Febrero":
+                    meses.Add(2);
+                    break;
+                    case "Marzo":
+                    meses.Add(3);
+                    break;
+                    case "Abril":
+                    meses.Add(4);
+                    break;
+                    case "Mayo":
+                    meses.Add(5);
+                    break;
+                    case "Junio":
+                    meses.Add(6);
+                    break;
+                    case "Julio":
+                    meses.Add(7);
+                    break;
+                    case "Agosto":
+                    meses.Add(8);
+                    break;
+                    case "Septiembre":
+                    meses.Add(9);
+                    break;
+                    case "Octubre":
+                    meses.Add(10);
+                    break;
+                    case "Noviembre":
+                    meses.Add(11);
+                    break;
+                    case "Diciembre":
+                    meses.Add(12);
+                    break;
+                }
+
+            }
+                
+
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            Encoding utf8 = Encoding.Unicode;
+            FileInfo fi = new FileInfo(this.textBox1.Text);
+            DataTable dt = ParseDBF.ReadDBF(this.textBox1.Text);
+            dt.TableName = "TablaDatos"; //Nombra el data table
+            dbfDS.Tables.Add(dt); //Agrega el data table al dataset
+            string campo = textBox2.Text;
+            string campoOtros = textBox4.Text;
+            HashSet<string> uniqueList = new HashSet<string>();
+            string campo2 = pruebaCampos(campoOtros);
+            //foreach (DataRow row in dbfDS.Tables["TablaDatos"].Rows)
+            //{
+            //    uniqueList.Add(row[campo2].ToString());
+            //}
+            string formato = comboBox1.SelectedItem.ToString();
+            dbfDS.Tables["TablaDatos"].Columns.Add("MASTERDATE*8", typeof(DateTime));
+            dbfDS.Tables["TablaDatos"].Columns.Add("MESYOTRO*50", typeof(String));
+            string day = string.Empty;
+            string month = string.Empty;
+            string year = string.Empty;
+            HashSet<string> combinacion = new HashSet<string>();
+            if (formato == "Fecha")
+            {
+                campo = campo + "*8";
+                foreach (DataRow row in dbfDS.Tables["TablaDatos"].Rows)
+                {
+                    DateTime tempdate;
+                    try
+                    {
+                        tempdate = DateTime.Parse(row[campo].ToString());
+                    }
+                    catch
+                    {
+                        MessageBox.Show("!Hay registros sin fecha");
+                        tempdate = new DateTime(2020, 1, 1);
+                    }
+                    row["MASTERDATE*8"] = tempdate;
+
+                    if (meses.Contains(tempdate.Month))
+                    {
+                        row["MESYOTRO*50"] = row[campo2];
+                        combinacion.Add(tempdate.Month.ToString("00") + row[campo2]);
+                    }
+                }
+            }
+            else if (formato == "mm/dd/aaaa")
+            {
+                campo = campo + "*10";
+                foreach (DataRow row in dbfDS.Tables["TablaDatos"].Rows)
+                {
+                    day = row[campo].ToString().Substring(3, 2);
+                    month = row[campo].ToString().Substring(0, 2);
+                    year = row[campo].ToString().Substring(6, 4);
+                    DateTime tempdate;
+                    try
+                    {
+                        tempdate = new DateTime(Int32.Parse(year), Int32.Parse(month), Int32.Parse(day));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("!Hay fechas con formato erroneo");
+                        tempdate = new DateTime(2020, 1, 1);
+                    }
+                    row["MASTERDATE*8"] = tempdate;
+                    if (meses.Contains(tempdate.Month))
+                    {
+                        row["MESYOTRO*50"] = row[campo2];
+                        uniqueList.Add(row[campo2].ToString());
+                        combinacion.Add(tempdate.Month.ToString("00") + row[campo2]);
+                    }
+                }
+            }
+            else if (formato == "dd/mm/aaaa")
+            {
+                campo = campo + "*10";
+                foreach (DataRow row in dbfDS.Tables["TablaDatos"].Rows)
+                {
+                    day = row[campo].ToString().Substring(0, 2);
+                    month = row[campo].ToString().Substring(3, 2);
+                    year = row[campo].ToString().Substring(6, 4);
+                    DateTime tempdate;
+                    try
+                    {
+                        tempdate = new DateTime(Int32.Parse(year), Int32.Parse(month), Int32.Parse(day));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("!Hay fechas con formato erroneo");
+                        tempdate = new DateTime(2020, 1, 1);
+                    }
+                    row["MASTERDATE*8"] = tempdate;
+                    row["MESYOTRO*50"] = row[campo2];
+                    if (meses.Contains(tempdate.Month))
+                    {
+                        row["MESYOTRO*50"] = row[campo2];
+                        uniqueList.Add(row[campo2].ToString());
+                        combinacion.Add(tempdate.Month.ToString("00") + row[campo2]);
+                    }
+                }
+            }
+
+
+            List<Field> DSFields = new List<Field>();
+            foreach (DataColumn Column in dt.Columns)
+            {
+                Field field = new Field();
+                field.FieldName = Column.ColumnName.Substring(0, Column.ColumnName.IndexOf("*", 0));
+                field.FieldType = Column.DataType.ToString();
+                int location = Column.ColumnName.Length - Column.ColumnName.IndexOf("*", 0) - 1;
+                field.FieldLength = Int32.Parse(Column.ColumnName.Substring(Column.ColumnName.IndexOf("*", 0) + 1, location));
+                DSFields.Add(field);
+            }
+
+            foreach (Field field in DSFields)
+            {
+                if (field.FieldType == "System.String")
+                {
+                    dbf.Fields.Add(new DbfField(field.FieldName, DbfFieldType.Character, Convert.ToByte(field.FieldLength)));
+                }
+                else if (field.FieldType == "System.Int32")
+                {
+                    dbf.Fields.Add(new DbfField(field.FieldName, DbfFieldType.Numeric, Convert.ToByte(field.FieldLength)));
+                }
+                else if (field.FieldType == "System.DateTime")
+                {
+                    dbf.Fields.Add(new DbfField(field.FieldName, DbfFieldType.Date, 8));
+                }
+                else
+                {
+                    dbf.Fields.Add(new DbfField(field.FieldName, DbfFieldType.Character, Convert.ToByte(field.FieldLength)));
+                }
+            }
+            foreach (string element in uniqueList)
+            {
+                var query = from r in dt.AsEnumerable()
+                            where (r.Field<string>("MESYOTRO*50") == element)//Convert.ToInt32(Folio)
+                            select r;
+                DataTable dtDestino = query.CopyToDataTable<DataRow>();
+
+                DbfRecord record;
+                foreach (DataRow row in dtDestino.Rows)
+                {
+                    record = dbf.CreateRecord();
+                    for (int i = 0; i < dtDestino.Columns.Count; i++)
+                    {
+                        if (row[i].GetType().ToString() == "System.String")
+                        {
+                            byte[] utfBytes = utf8.GetBytes(row[i].ToString());
+                            byte[] isoBytes = Encoding.Convert(utf8, iso, utfBytes);
+                            string msg = iso.GetString(isoBytes);
+                            record.Data[i] = msg;
+                        }
+                        else record.Data[i] = row[i];
+                    }
+
+                }
+                dbf.Write(fi.DirectoryName + "//" + textBox3.Text + element.Substring(0, 3) + ".dbf", DbfVersion.FoxBaseDBase3NoMemo);
+                dbf.Records.Clear();
+            }
+
+            MessageBox.Show("Proceso concluido exitosamente");
+
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             this.openFileDialog1.ShowDialog();
@@ -288,9 +501,13 @@ namespace DBF_Process
             {
                 procesaFechas();
             }
-            else
+            else if (radioButton2.Checked)
             {
                 procesaOtros();
+            }
+            else 
+            {
+                procesaCombinacion();
             }
         }
 
@@ -306,6 +523,10 @@ namespace DBF_Process
                 this.comboBox1.Enabled = false;
                 this.label3.Enabled = false;
                 this.label2.Text = "Campo Otro:";
+                this.textBox4.Visible = false;
+                this.label5.Visible = false;
+                this.label6.Visible = false;
+                this.checkBoxComboBox1.Visible = false;
             }
             else
             {
@@ -319,10 +540,36 @@ namespace DBF_Process
                 this.comboBox1.Enabled = true;
                 this.label3.Enabled = true;
                 this.label2.Text = "Campo Fecha:";
+                this.textBox4.Visible = false;
+                this.label5.Visible = false;
+                this.label6.Visible = false;
+                this.checkBoxComboBox1.Visible = false;
             }
             else
             {
             }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked)
+            {
+                this.comboBox1.Enabled = true;
+                this.label3.Enabled = true;
+                this.label2.Text = "Campo Fecha:";
+                this.textBox4.Visible = true;
+                this.label5.Visible = true;
+                this.label6.Visible = true;
+                this.checkBoxComboBox1.Visible = true;
+            }
+            else
+            {
+            }
+        }
+
+        private void checkBoxComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
        
     }
